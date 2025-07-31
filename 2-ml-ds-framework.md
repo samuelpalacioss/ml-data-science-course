@@ -38,13 +38,14 @@ looking for).
 
 ### 1. Splitting Data (3 sets)
 
-- Since we aim to use ML models for future predictions, it’s crucial to test how well they perform in
-  real-world conditions. To do this we split data in 3 different sets:
+Since we aim to use ML models for future predictions, it’s crucial to test how well they perform in
+real-world conditions. To do this we split data in 3 different sets:
 
 1. Training set (70%): To train our model.
 2. Validation set (10-15%): To tune our model.
 3. Test set (10-15%): To test and compare our different models.
 
+> [!NOTE]  
 > We can think of these sets as:
 >
 > 1. Training set (Course material)
@@ -53,15 +54,16 @@ looking for).
 
 ### 2. Picking the Model
 
-- **Structured data:** Decision trees (Random forests, CatBoost and XGBoost)
-- **Unstructured data:** Deep Learning (Neural Networks) and Transfer learning
+- **Structured data:** Decision trees (Random forests, CatBoost and XGBoost).
+- **Unstructured data:** Deep Learning (Neural Networks) and Transfer learning.
 
 ### 3. Tuning a model (Improving performance)
 
-- ML Models have hyperparameters _we can adjust_. A model first results aren't its last. Tuning can take place
-  on training or validation data sets.
-  - Random forest: We can adjust the number of trees.
-  - Neural networks: We can adjust the number of layers.
+ML Models have hyperparameters _we can adjust_. A model first results aren't its last. Tuning can take place
+on training or validation data sets.
+
+- Random forest: We can adjust the number of trees.
+- Neural networks: We can adjust the number of layers.
 
 ### 4. Comparison
 
@@ -71,6 +73,25 @@ How will our model perform in the real world?
 - It’s common to see a slight drop in performance when moving from training and validation sets to the test
   set.
 - Example: Training 98%, Test 96% = **good**. Training 64%, Test 47% = **underfitting**. Training 93%, Test
-  99% = **overfitting**
+  99% = **overfitting**.
 
 ![Comparison](https://i.imgur.com/EGyLbPg.png)
+
+#### Fixes for overfitting and underfitting
+
+- **Underfitting:**
+  - Try a more advanced model.
+  - Increase model hyperparameters.
+  - Reduce amount of features.
+  - Train longer.
+- **Overfitting:**
+  - Collect more data.
+  - Try a less advanced model.
+
+### 5. Experimentation
+
+What have we tried/What else can we try? Iterative process.
+
+### Tools we will use
+
+![Tools](https://i.imgur.com/NGAWJ7p.png)
