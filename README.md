@@ -1,2 +1,2 @@
-\### My personal notes of the course 
+### My personal notes of the course 
 
