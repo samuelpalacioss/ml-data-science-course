@@ -94,3 +94,120 @@ Some useful methods to view and select data from a pandas DataFrame are:
 - `DataFrame['A']` Selects the column named 'A' from the DataFrame.
 - `DataFrame[DataFrame['A'] > 8]` Boolean indexing filters rows based on column values meeting a condition
   (e.g. all rows from column 'A' greater than 8)
+
+- `pd.crosstab()` is a great way to view two different columns together and compare them.
+
+```python
+# Compare Car Make with number of Doors
+pd.crosstab(car_sales["Make"], car_sales["Doors"])
+```
+
+![Crosstab](https://i.imgur.com/9YsTYLr.png)
+
+- `.groupby()` is used to compare more columns in the context of another column.
+
+```python
+car_sales.groupby(["Make"]).mean(numeric_only=True) # This will give us the avg per each car maker
+```
+
+![GroupBy](https://i.imgur.com/VpFXzBx.png)
+
+- `.plot()` is used to visualize a column.
+
+![Graph](https://i.imgur.com/Mm0Nkg0.png)
+
+- `.hist()` is used to see the distribution of a column.
+  ![Hist](https://i.imgur.com/Mq7FmLS.png)
+
+### 6. Manipulating data
+
+- **To access the string value of a column**, use `.str`
+
+```python
+# Prints the Make column in lowercase
+car_sales["Make"].str.lower()
+
+# Change the Make column to lowercase
+car_sales["Make"] = car_sales["Make"].str.lower()
+```
+
+> [!NOTE]
+> Some functions have a parameter called `inplace`, which determines wheteher an operation modifies the
+> original df or series (`True`) or returns a new modified object(`False`).
+
+- **To fill columns with missing values**, we can use `.fillna()`
+
+```python
+# Version 1. Fill Odometer column missing values with inplace=True
+car_sales_missing["Odometer"].fillna(car_sales_missing["Odometer"].mean(),
+                                     inplace=True)
+
+# Version 2. Fill the Odometer missing values to the mean reassigning the column to the filled version
+car_sales_missing["Odometer"] = car_sales_missing["Odometer"].fillna(car_sales_missing["Odometer"].mean())
+```
+
+- **To remove columns with missing values**, we can use `.dropna()`
+
+```python
+# Remove missing data
+car_sales_missing.dropna()
+```
+
+- **To create data**, like creating a column, we have many options:
+
+```python
+# Create a column from a pandas Series
+seats_column = pd.Series([5, 5, 5, 5, 5, 5, 5, 5, 5, 5])
+car_sales["Seats"] = seats_column
+
+# Create a column from a Python list
+engine_sizes = [1.3, 2.0, 3.0, 4.2, 1.6, 1, 2.0, 2.3, 2.0, 3.0]
+car_sales["Engine Size"] = engine_sizes
+
+# Create a column from other columns
+car_sales["Price per KM"] = car_sales["Price"] / car_sales["Odometer (KM)"]
+car_sales
+```
+
+- **To set a column to a single value:**
+
+```python
+# All column to 1 value (number of wheels)
+car_sales["Number of wheels"] = 4
+car_sales
+```
+
+- **To remove a column**, we can use `.drop('COLUMN_NAME', axis=1)`
+
+```python
+# Drop the Price per KM column
+car_sales = car_sales.drop("Price per KM", axis=1) # columns live on axis 1
+car_sales
+```
+
+- **To take a random sample from a DataFrame**, use `.sample(frac=n)`, where n is the fraction of rows to
+  sample:
+
+```python
+car_sales_sampled = car_sales.sample(frac=1) # Sample 100% of rows
+car_sales_sampled = car_sales.sample(frac=0.5) # Sample 50% of rows
+car_sales_sampled = car_sales.sample(frac=0.01) # Sample 1% of rows
+```
+
+> [!NOTE]
+> Notice how the columns remain intact but their order is mixed
+> ![Frac](https://i.imgur.com/i47JqsO.png)
+
+- **To reset indexes order**, use `.reset_index()`
+
+```python
+# Reset the indexes of car_sales_sampled
+car_sales_sampled.reset_index()
+```
+
+- **To apply a function to a column**, use `.apply()`
+
+```python
+# Change the Odometer values from kilometres to miles
+car_sales["Odometer (KM)"] = car_sales["Odometer (KM)"].apply(lambda x: x / 1.6)
+```
