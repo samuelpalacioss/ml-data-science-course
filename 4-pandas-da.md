@@ -121,6 +121,13 @@ car_sales.groupby(["Make"]).mean(numeric_only=True) # This will give us the avg 
 
 ### 6. Manipulating data
 
+- **To combine two or more series in a DataFrame**:
+
+```python
+
+pd.DataFrame({"Foods": foods, "Price": prices}) # Assuming you have foods and prices series
+```
+
 - **To access the string value of a column**, use `.str`
 
 ```python
