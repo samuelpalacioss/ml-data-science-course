@@ -102,6 +102,8 @@ There are 2 ways to make predictiosn: `predict()` and `predict_proba()`
 
 ### 5. Evaluating a machine learning model
 
+[Metrics and Scoring](https://scikit-learn.org/stable/modules/model_evaluation.html)
+
 There are 3 ways to evaluate Scikit-Learn models/estimators:
 
 1. Estimators built-in `score()` method.
@@ -268,6 +270,120 @@ print(classification_report(y_test, y_preds))
 - If false positive predictions are worse than false negatives, aim for higher precision.
 - If false negative predictions are worse than false positives, aim for higher recall.
 - The **F1-score** is a combination of precision and recall.
+
+### 5.2 Regression model evaluation metrics
+
+1. R-squared (R^2) or Coefficient of determination
+2. Mean Absolute Error (MAE)
+3. Mean Squared Error (MSE)
+
+**For examples go to the Jupyter notebook**
+
+**Which regression metric should you use?**
+
+- R-squared (R^2): A quick, general measure of how well your model fits the data. The closer to 1.0, the better
+  the fit. However, it doesn't tell you how far off each prediction is.
+- Mean Absolute Error (MAE): Gives the average error in the same units as your data. Use it when the cost of
+  an error is directly proportional to its size.
+- Mean Squared Error (MSE): Gives more weight to large errors. Use it when large errors are disproportionately
+  worse than small ones.
+- Use **MAE** if the cost of being off by $10,000 is twice as bad as being off by $5,000. Use **MSE** if being
+  off by $10,000 is more than twice as bad as being off by $5,000.
+
+### 5.3 Using the `score` parameter
+
+### 5.3.1 For classification metrics
+
+```python
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+
+np.random.seed(42)
+
+X = heart_disease.drop('target', axis=1)
+y = heart_disease['target']
+
+clf = RandomForestClassifier()
+```
+
+**1. Accuracy:**
+
+```python
+
+# Accuracy v1
+np.random.seed(42)
+
+# Cross-validation accuracy
+cv_acc = cross_val_score(clf, X, y, cv=5, scoring=None)
+
+print(f'The cross validated accuracy is: {np.mean(cv_acc) *100:.2f}%')
+
+# Accuracy v2
+np.random.seed(42)
+
+# Cross-validation accuracy
+cv_acc = cross_val_score(clf, X, y, cv=5, scoring='accuracy')
+
+print(f'The cross validated accuracy is: {np.mean(cv_acc) *100:}%')
+```
+
+**2. Precision:**
+
+```python
+np.random.seed(42)
+
+# Cross-validation precision
+cv_acc = cross_val_score(clf, X, y, cv=5, scoring='precision')
+
+print(f'The cross validated precision is: {np.mean(cv_acc):}')
+```
+
+**3. Recall:**
+
+```python
+np.random.seed(42)
+
+# Cross-validation precision
+cv_acc = cross_val_score(clf, X, y, cv=5, scoring='recall')
+
+print(f'The cross validated recall is: {np.mean(cv_acc):}')
+```
+
+### 5.3.2 For regression metrics
+
+```python
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestRegressor
+
+np.random.seed(42)
+
+X = housing_df.drop('target', axis=1)
+y = housing_df['target']
+
+model = RandomForestRegressor()
+```
+
+**1. R-squared (R^2):**
+
+```python
+cv_r2 = cross_val_score(model, X, y, scoring=None)
+
+np.mean(cv_r2)
+```
+
+**2. Mean Squared Error (MSE):**
+
+```python
+cv_mse = cross_val_score(model, X, y, cv=3,scoring='neg_mean_squared_error')
+np.mean(cv_mse)
+```
+
+**3. Mean Absolute Error (MAE):**
+
+```python
+cv_mae = cross_val_score(model, X, y, cv=3,scoring='neg_mean_absolute_error')
+np.mean(cv_mae)
+```
 
 ### How to install a conda package into the current env from a Jupyter Notebook
 
